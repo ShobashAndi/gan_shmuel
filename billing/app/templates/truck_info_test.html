@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Truck Information API Tester</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, button {
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #response {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            min-height: 100px;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        .helper-text {
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 5px;
+        }
+        .date-picker {
+            display: flex;
+            gap: 10px;
+        }
+        .date-picker input {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <h1>Truck Information API Tester</h1>
+    
+    <div class="container">
+        <h2>Get Truck Information</h2>
+        
+        <div class="form-group">
+            <label for="truck-id">Truck ID (License Number):</label>
+            <input type="text" id="truck-id" placeholder="Enter truck license (e.g., XYZ-123)">
+        </div>
+        
+        <div class="form-group">
+            <label for="from-date">From Date:</label>
+            <div class="date-picker">
+                <input type="datetime-local" id="from-date-picker">
+                <input type="text" id="from-date" placeholder="yyyymmddhhmmss format">
+            </div>
+            <div class="helper-text">Leave blank for default (1st of current month)</div>
+        </div>
+        
+        <div class="form-group">
+            <label for="to-date">To Date:</label>
+            <div class="date-picker">
+                <input type="datetime-local" id="to-date-picker">
+                <input type="text" id="to-date" placeholder="yyyymmddhhmmss format">
+            </div>
+            <div class="helper-text">Leave blank for default (current time)</div>
+        </div>
+        
+        <button id="fetch-button">Fetch Truck Information</button>
+    </div>
+    
+    <h3>Response:</h3>
+    <div id="response">No data fetched yet.</div>
+    
+    <script>
+        // Helper function to format date to yyyymmddhhmmss
+        function formatDateToString(date) {
+            return date.getFullYear() +
+                   String(date.getMonth() + 1).padStart(2, '0') +
+                   String(date.getDate()).padStart(2, '0') +
+                   String(date.getHours()).padStart(2, '0') +
+                   String(date.getMinutes()).padStart(2, '0') +
+                   String(date.getSeconds()).padStart(2, '0');
+        }
+        
+        // Helper function to convert yyyymmddhhmmss to datetime-local format
+        function formatForDatetimeLocal(yyyymmddhhmmss) {
+            if (!yyyymmddhhmmss || yyyymmddhhmmss.length !== 14) return '';
+            
+            const year = yyyymmddhhmmss.substring(0, 4);
+            const month = yyyymmddhhmmss.substring(4, 6);
+            const day = yyyymmddhhmmss.substring(6, 8);
+            const hour = yyyymmddhhmmss.substring(8, 10);
+            const minute = yyyymmddhhmmss.substring(10, 12);
+            const second = yyyymmddhhmmss.substring(12, 14);
+            
+            return `${year}-${month}-${day}T${hour}:${minute}:${second}`;
+        }
+        
+        // Initialize datetime pickers with current defaults
+        const now = new Date();
+        const firstOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        
+        // Event listeners for datetime pickers to update text inputs
+        document.getElementById('from-date-picker').addEventListener('change', function() {
+            const selectedDate = new Date(this.value);
+            document.getElementById('from-date').value = formatDateToString(selectedDate);
+        });
+        
+        document.getElementById('to-date-picker').addEventListener('change', function() {
+            const selectedDate = new Date(this.value);
+            document.getElementById('to-date').value = formatDateToString(selectedDate);
+        });
+        
+        // Event listeners for text inputs to update datetime pickers
+        document.getElementById('from-date').addEventListener('input', function() {
+            document.getElementById('from-date-picker').value = formatForDatetimeLocal(this.value);
+        });
+        
+        document.getElementById('to-date').addEventListener('input', function() {
+            document.getElementById('to-date-picker').value = formatForDatetimeLocal(this.value);
+        });
+        
+        // Main fetch button
+        document.getElementById('fetch-button').addEventListener('click', function() {
+            const truckId = document.getElementById('truck-id').value.trim();
+            const fromDate = document.getElementById('from-date').value.trim();
+            const toDate = document.getElementById('to-date').value.trim();
+            const responseElement = document.getElementById('response');
+            
+            if (!truckId) {
+                responseElement.textContent = 'Error: Truck ID is required';
+                return;
+            }
+            
+            // Build the URL with parameters
+            let url = `/truck/${encodeURIComponent(truckId)}`;
+            const params = [];
+            
+            if (fromDate) {
+                params.push(`from=${fromDate}`);
+            }
+            
+            if (toDate) {
+                params.push(`to=${toDate}`);
+            }
+            
+            if (params.length > 0) {
+                url += '?' + params.join('&');
+            }
+            
+            responseElement.textContent = 'Fetching data...';
+            
+            // Make the request
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(data => {
+                            throw new Error(`${response.status} ${response.statusText}: ${JSON.stringify(data)}`);
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    responseElement.textContent = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    responseElement.textContent = `Error: ${error.message}`;
+                });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+# Use a small base image
+FROM alpine:latest
+
+# Command to print "Hello, World!"
+CMD ["echo", "Hello, World!"]

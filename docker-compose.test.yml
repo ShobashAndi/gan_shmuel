@@ -1,0 +1,76 @@
+services:
+  billing_app:
+    build: ./billing  # Builds from source for latest changes
+    container_name: billing_app_test
+    ports:
+      - "5002:5000"
+    environment:
+      MYSQL_HOST: billing_db_test
+      MYSQL_USER: root
+      MYSQL_PASSWORD: rootpassword
+    volumes:
+      - ./billing/in:/in
+    depends_on:
+      - billing_db_test
+    restart: on-failure
+    networks:
+      - gan_shmuel_test
+
+  billing_db_test:
+    image: mysql:9
+    container_name: billing_db_test
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: billdb_test
+      MYSQL_USER: your_mysql_user
+      MYSQL_PASSWORD: your_mysql_password
+    volumes:
+      - billing_test:/var/lib/mysql
+      - ./billing/db-init:/docker-entrypoint-initdb.d
+    restart: on-failure
+    networks:
+      - gan_shmuel_test
+
+  weight_app:
+    build: ./weight  # Builds from source for latest changes
+    container_name: weight_app_test
+    ports:
+      - "5003:5000"
+    environment:
+      MYSQL_HOST: weight_db_test
+      MYSQL_USER: root
+      MYSQL_PASSWORD: rootpassword
+    volumes:
+      - ./weight/in:/weight/app/in
+    depends_on:
+      - weight_db_test
+    restart: on-failure
+    networks:
+      - gan_shmuel_test
+
+  weight_db_test:
+    image: mysql:9
+    container_name: weight_db_test
+    ports:
+      - "3309:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: weight_test
+      MYSQL_USER: your_mysql_user
+      MYSQL_PASSWORD: your_mysql_password
+    volumes:
+      - weight_test:/var/lib/mysql
+      - ./weight/db-init:/docker-entrypoint-initdb.d
+    restart: on-failure
+    networks:
+      - gan_shmuel_test
+
+volumes:
+  billing_test:
+  weight_test:
+
+networks:
+  gan_shmuel_test:
+    name: gan_shmuel_test

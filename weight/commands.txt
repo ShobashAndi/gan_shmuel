@@ -1,0 +1,58 @@
+GET/health
+    curl -X GET http://localhost:5000/health      -H "Content-Type: application/json"
+
+POST/batch-weight 
+     curl -X POST http://localhost:5000/batch-weight      -H "Content-Type: application/json"      -d '{"file": "containers1.csv"}'
+
+POST/weight 
+    curl -X POST http://localhost:5000/weight      -H "Content-Type: application/json"      -d '{
+            "direction": "in",
+            "truck": "test123",
+            "containers": "C-35434,K-4109",
+            "weight": 15000,
+            "unit": "kg",
+            "force": false,
+            "produce": "orange"
+        }'
+    curl -X POST http://localhost:5000/weight      -H "Content-Type: application/json"      -d '{
+          "direction": "out",
+          "truck": "test123",
+          "containers": "C-35434,K-4109",
+          "weight": 12000,
+          "unit": "kg",
+          "force": false,
+          "produce": "orange"
+     }'
+
+GET/weight
+    curl -X GET http://localhost:5000/weight?from=2025031801000&to=2025031822000&filter="in,out"
+
+GET/item
+    curl -X GET http://localhost:5000/item/test123?from=2025031801000&to=2025031822000
+
+GET/session
+    curl -X GET http://localhost:5000/session/1
+
+GET/unknown
+    curl -X GET http://localhost:5000/unknown
+
+
+docker commands
+    docker-compose up --build
+    docker-compose down
+    docker volume rm -f weight_weight
+    docker run --rm -v weight_weight:/data alpine sh -c "rm -rf /data/*"
+
+
+
+mysql
+     docker exec -it weight_db bash
+     mysql -u root -prootpassword
+     USE weight;
+     SHOW TABLES;
+     SELECT * FROM transactions;
+     SELECT * FROM containers_registered;
+
+     TRUNCATE TABLE transactions;
+     TRUNCATE TABLE containers_registered;
+

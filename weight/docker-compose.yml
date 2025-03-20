@@ -1,0 +1,32 @@
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      MYSQL_HOST: db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: rootpassword
+    volumes:
+      - ./in:/weight/app/in
+    depends_on:
+      - db
+    restart: on-failure
+
+  db:
+    image: mysql:9
+    container_name: weight_db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: weight
+      MYSQL_USER: your_mysql_user
+      MYSQL_PASSWORD: your_mysql_password
+    volumes:
+      - weight:/var/lib/mysql
+      - ./db-init:/docker-entrypoint-initdb.d
+    restart: on-failure
+
+volumes:
+  weight:
