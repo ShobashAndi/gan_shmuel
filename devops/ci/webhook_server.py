@@ -22,6 +22,8 @@ GIT_REPO = "https://github.com/ShobashAndi/gan_shmuel"
 
 LOCAL_REPO_PATH = "/app/gan_shmuel"
 
+#LOCAL_REPO_PATH = "/home/andishobash/Desktop/orange-team-gan-shmuel-main"
+
 SERVICES = ["weight", "billing"]
 
 ZOHO_EMAIL_PASSWORD = "Maxops1313!"
