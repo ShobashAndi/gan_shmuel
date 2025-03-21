@@ -16,9 +16,9 @@ app = Flask(__name__)
 
 # Git Configuration
 
-GIT_REPO = "https://github.com/maxopsdeveleap/orange-team-gan-shmuel-main"
+GIT_REPO = "https://github.com/ShobashAndi/gan_shmuel"
 
-LOCAL_REPO_PATH = "/home/andishobash/Desktop/orange-team-gan-shmuel-main"
+LOCAL_REPO_PATH = "/home/andishobash/Desktop/gam_shmuel_test"
 
 SERVICES = ["weight", "billing"]
 
