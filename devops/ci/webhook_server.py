@@ -280,7 +280,11 @@ def deploy_to_production(github_username,developer_email):
     subprocess.run(["docker-compose", "-f", compose_file, "down"], cwd=LOCAL_REPO_PATH, check=True)
     subprocess.run(["docker-compose", "-f", compose_file, "build"], cwd=LOCAL_REPO_PATH, check=True)
     subprocess.run(["docker-compose", "-f", compose_file, "up", "-d"], cwd=LOCAL_REPO_PATH, check=True)
-
+    send_email(
+        subject=f"✅ Added to production successfully by {github_username}",
+        body="Your code added to the production!",
+            receiver=developer_email
+    )
 
 if __name__ == '__main__':
 
