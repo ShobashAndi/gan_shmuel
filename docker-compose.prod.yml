@@ -1,18 +1,18 @@
 services:
   billing_app:
-    image: billing_app:latest  # Using pre-built image for production
+    build: ./billing
     container_name: billing_app
     ports:
       - "5000:5000"
     environment:
       MYSQL_HOST: billing_db
-      MYSQL_USER: root
-      MYSQL_PASSWORD: rootpassword
+      MYSQL_USER: your_mysql_user
+      MYSQL_PASSWORD: your_mysql_password
     volumes:
-      - ./billing/in:/in
+      - ./billing/in:/billing/in
     depends_on:
       - billing_db
-    restart: always  # Ensures production runs persistently
+    restart: on-failure
     networks:
       - gan_shmuel
 
@@ -29,24 +29,24 @@ services:
     volumes:
       - billing:/var/lib/mysql
       - ./billing/db-init:/docker-entrypoint-initdb.d
-    restart: always
+    restart: on-failure
     networks:
       - gan_shmuel
 
   weight_app:
-    image: weight_app:latest  # Using pre-built image for production
+    build: ./weight
     container_name: weight_app
     ports:
       - "5001:5000"
     environment:
       MYSQL_HOST: weight_db
-      MYSQL_USER: root
-      MYSQL_PASSWORD: rootpassword
+      MYSQL_USER: your_mysql_user
+      MYSQL_PASSWORD: your_mysql_password
     volumes:
-      - ./weight/in:/weight/app/in
+      - ./weight/in:/app/in
     depends_on:
       - weight_db
-    restart: always
+    restart: on-failure
     networks:
       - gan_shmuel
 
@@ -63,7 +63,7 @@ services:
     volumes:
       - weight:/var/lib/mysql
       - ./weight/db-init:/docker-entrypoint-initdb.d
-    restart: always
+    restart: on-failure
     networks:
       - gan_shmuel
 
