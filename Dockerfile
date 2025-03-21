@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
     
 # Clone the repository
-RUN git clone https://github.com/ShobashAndi/gan_shmuel /app/gan_shmuel
+RUN git clone https://github.com/maxopsdeveleap/orange-team-gan-shmuel-main /app/gan_shmuel
 
 WORKDIR /app/gan_shmuel
 

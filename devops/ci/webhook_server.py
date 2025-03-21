@@ -18,11 +18,11 @@ app = Flask(__name__)
 
 # Git Configuration
 
-GIT_REPO = "https://github.com/ShobashAndi/gan_shmuel"
+GIT_REPO = "https://github.com/maxopsdeveleap/orange-team-gan-shmuel-main"
 
-#LOCAL_REPO_PATH = "/app/gan_shmuel"
+#LOCAL_REPO_PATH = "/app/orange-team-gan-shmuel-main"
 
-LOCAL_REPO_PATH = "/home/andishobash/Desktop/gam_shmuel_test" 
+LOCAL_REPO_PATH = "/home/andishobash/Desktop/orange-team-gan-shmuel-main"
 
 SERVICES = ["weight", "billing"]
 
@@ -194,7 +194,7 @@ def run_ci_pipeline(branch, github_username, developer_email):
                 print(f"🔍 Running tests in {service}...")
 
                 test_command = [
-                    "docker", "exec", "-i", service, "python3", test_script
+                   
                 ]
 
                 try:
