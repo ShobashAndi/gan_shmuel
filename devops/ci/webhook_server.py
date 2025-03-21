@@ -8,6 +8,8 @@ import smtplib
 
 from email.message import EmailMessage
 
+import time
+
 
 
 app = Flask(__name__)
@@ -175,6 +177,7 @@ def run_ci_pipeline(branch, github_username, developer_email):
         subprocess.run(["docker-compose", "-f", compose_file, "build"], cwd=LOCAL_REPO_PATH, check=True)
         subprocess.run(["docker-compose", "-f", compose_file, "up", "-d"], cwd=LOCAL_REPO_PATH, check=True)
 
+        time.sleep(5)
         print("✅ Services started successfully.")
 
         if compose_file == "docker-compose.test.yml":
