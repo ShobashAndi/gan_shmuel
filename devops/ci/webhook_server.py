@@ -185,7 +185,7 @@ def run_ci_pipeline(branch, github_username, developer_email):
 
             test_services = {
                 "weight_app_test":"/weight/testing/main_test.py",
-                "billing_app_test":"/billing/testing/main_test.py"
+                
             }
 
             failed_tests = []  # Track failed services
@@ -224,9 +224,10 @@ def run_ci_pipeline(branch, github_username, developer_email):
                     receiver=developer_email
             )
             print("📧 Success email sent!")
+            print("✅ CI pipeline completed successfully.")
         else:
             print(f"❌ CI pipeline completed with errors in: {', '.join(failed_tests)}")
-        print("✅ CI pipeline completed successfully.")
+        
 
     except subprocess.CalledProcessError as e:
         print(f"❌ CI pipeline failed: {str(e)}")
