@@ -77,7 +77,7 @@
         "following_url": "https://api.github.com/users/maxopsdeveleap/following{/other_user}",
         "gists_url": "https://api.github.com/users/maxopsdeveleap/gists{/gist_id}",
         "starred_url": "https://api.github.com/users/maxopsdeveleap/starred{/owner}{/repo}",
-        "subscriptions_url": "https://api.github.com/users/maxopsdeveleap/subscriptions",
+        "subscriptions_url": "https://api.github.com/users/maxopsdeveleap/subscriptions  ",
         "organizations_url": "https://api.github.com/users/maxopsdeveleap/orgs",
         "repos_url": "https://api.github.com/users/maxopsdeveleap/repos",
         "events_url": "https://api.github.com/users/maxopsdeveleap/events{/privacy}",
