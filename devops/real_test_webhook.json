@@ -67,17 +67,17 @@
       "sha": "3df83c3bd9bfa42d7cc7f1ccee77b023a3e29f53",
       "user": {
         "login": "maxopsdeveleap",
-        "id": 201723823,
+        "id": 201723823,   
         "node_id": "U_kgDODAYPrw",
         "avatar_url": "https://avatars.githubusercontent.com/u/201723823?v=4",
         "gravatar_id": "",
         "url": "https://api.github.com/users/maxopsdeveleap",
-        "html_url": "https://github.com/maxopsdeveleap",
+        "html_url": "https://github.com/maxopsdeveleap",   
         "followers_url": "https://api.github.com/users/maxopsdeveleap/followers",
         "following_url": "https://api.github.com/users/maxopsdeveleap/following{/other_user}",
         "gists_url": "https://api.github.com/users/maxopsdeveleap/gists{/gist_id}",
         "starred_url": "https://api.github.com/users/maxopsdeveleap/starred{/owner}{/repo}",
-        "subscriptions_url": "https://api.github.com/users/maxopsdeveleap/subscriptions",
+        "subscriptions_url": "https://api.github.com/users/maxopsdeveleap/subscriptions  ",
         "organizations_url": "https://api.github.com/users/maxopsdeveleap/orgs",
         "repos_url": "https://api.github.com/users/maxopsdeveleap/repos",
         "events_url": "https://api.github.com/users/maxopsdeveleap/events{/privacy}",
@@ -86,14 +86,14 @@
         "user_view_type": "public",
         "site_admin": false
       },
-      "repo": {
-        "id": 949448894,
+      "repo": {   
+        "id": 949448894,   
         "node_id": "R_kgDOOJdwvg",
         "name": "orange-team-gan-shmuel-main",
         "full_name": "maxopsdeveleap/orange-team-gan-shmuel-main",
         "private": false,
         "owner": {
-          "login": "maxopsdeveleap",
+          "login": "maxopsdeveleap",   
           "id": 201723823,
           "node_id": "U_kgDODAYPrw",
           "avatar_url": "https://avatars.githubusercontent.com/u/201723823?v=4",
