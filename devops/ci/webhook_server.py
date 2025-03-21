@@ -22,7 +22,7 @@ GIT_REPO = "https://github.com/maxopsdeveleap/orange-team-gan-shmuel-main"
 
 #LOCAL_REPO_PATH = "/app/orange-team-gan-shmuel-main"
 
-LOCAL_REPO_PATH = "/home/andishobash/Desktop/orange-team-gan-shmuel-main"
+LOCAL_REPO_PATH = "/home/andishobash/Desktop/gam_shmuel_test"
 
 SERVICES = ["weight", "billing"]
 
