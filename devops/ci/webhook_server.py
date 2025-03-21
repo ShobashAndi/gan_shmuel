@@ -99,8 +99,6 @@ def github_webhook():
                     #receiver=developer_email
 
                      #)
-                if branch == "main":
-                    deploy_to_production(github_username,developer_email)
 
                 return jsonify({"message": "CI pipeline ran successfully"}), 200
 
@@ -225,6 +223,8 @@ def run_ci_pipeline(branch, github_username, developer_email):
             )
             print("📧 Success email sent!")
             print("✅ CI pipeline completed successfully.")
+            if branch == "main":
+                deploy_to_production(github_username,developer_email)
         else:
             print(f"❌ CI pipeline completed with errors in: {', '.join(failed_tests)}")
         
