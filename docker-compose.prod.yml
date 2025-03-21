@@ -45,7 +45,7 @@ services:
       MYSQL_USER: your_mysql_user
       MYSQL_PASSWORD: your_mysql_password
     volumes:
-      - ./weight/in:/app/in
+      - ./weight/in:/weight/app/in
     depends_on:
       - weight_db
     restart: on-failure
