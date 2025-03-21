@@ -1,4 +1,4 @@
-FROM python:3.13-alpine3.21
+FROM python:3.13
 
 # Set environment variables
 ENV PYTHONUNBUFFERED 1
@@ -8,12 +8,13 @@ WORKDIR /app
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install git and docker-compose
-RUN apk add --no-cache \
+# Install Git, Docker CLI, and Docker Compose
+RUN apt-get update && apt-get install -y \
     git \
-    docker-cli \
-    docker-compose
-
+    docker.io \
+    docker-compose \
+    && rm -rf /var/lib/apt/lists/*
+    
 # Clone the repository
 RUN git clone https://github.com/ShobashAndi/gan_shmuel /app/gan_shmuel
 
