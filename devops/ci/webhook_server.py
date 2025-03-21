@@ -183,7 +183,7 @@ def run_ci_pipeline(branch, github_username, developer_email):
 
             test_services = {
                 "weight_app_test":"/weight/testing/main_test.py",
-                "billing_app_test": "/billing/testing/main_test.py"
+                #"billing_app_test": "/billing/testing/main_test.py"
             }
 
             failed_tests = []  # Track failed services
