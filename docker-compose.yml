@@ -1,6 +1,7 @@
 services:
   billing_app:
     build: ./billing
+    image: billing_app:latest
     container_name: billing_app
     ports:
       - "5000:5000"
@@ -35,6 +36,7 @@ services:
 
   weight_app:
     build: ./weight
+    image: weight_app:latest
     container_name: weight_app
     ports:
       - "5001:5000"

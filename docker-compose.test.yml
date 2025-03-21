@@ -1,6 +1,7 @@
 services:
-  billing_app:
+  billing_app_test:
     build: ./billing  # Builds from source for latest changes
+    image: billing_app_test:latest
     container_name: billing_app_test
     ports:
       - "5002:5000"
@@ -33,8 +34,9 @@ services:
     networks:
       - gan_shmuel_test
 
-  weight_app:
+  weight_app_test:
     build: ./weight  # Builds from source for latest changes
+    image: weight_app_test:latest
     container_name: weight_app_test
     ports:
       - "5003:5000"
