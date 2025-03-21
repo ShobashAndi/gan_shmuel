@@ -17,6 +17,8 @@ RUN apk add --no-cache \
 # Clone the repository
 RUN git clone https://github.com/ShobashAndi/gan_shmuel /app/gan_shmuel
 
+WORKDIR /app/gan_shmuel
+
 # Set up environment variables
 ENV FLASK_APP=ci_pipeline.py
 ENV FLASK_RUN_HOST=0.0.0.0
