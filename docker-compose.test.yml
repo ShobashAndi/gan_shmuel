@@ -9,7 +9,7 @@ services:
       MYSQL_USER: root
       MYSQL_PASSWORD: rootpassword
     volumes:
-      - ./billing/in:/in
+      - ./billing/in:/billing/in
     depends_on:
       - billing_db_test
     restart: on-failure
