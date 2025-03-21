@@ -8,6 +8,8 @@ import smtplib
 
 from email.message import EmailMessage
 
+import time
+
 
 
 app = Flask(__name__)
@@ -16,9 +18,9 @@ app = Flask(__name__)
 
 # Git Configuration
 
-GIT_REPO = "https://github.com/maxopsdeveleap/orange-team-gan-shmuel-main"
+GIT_REPO = "https://github.com/ShobashAndi/gan_shmuel"
 
-LOCAL_REPO_PATH = "/home/andishobash/Desktop/orange-team-gan-shmuel-main"
+LOCAL_REPO_PATH = "/home/andishobash/Desktop/gam_shmuel_test"
 
 SERVICES = ["weight", "billing"]
 
@@ -87,18 +89,16 @@ def github_webhook():
 
                 run_ci_pipeline(branch,github_username,developer_email)
 
-                if branch == "billing" or branch == "weight" or branch == "devops":
-                    send_email(
+                #if branch == "billing" or branch == "weight" or branch == "devops":
+                    #send_email(
 
-                    subject=f"✅ CI Success for {branch} by {github_username}",
+                    #subject=f"✅ CI Success for {branch} by {github_username}",
 
-                    body="CI pipeline completed successfully for your merged PR.",
+                    #body="CI pipeline completed successfully for your merged PR.",
 
-                    receiver=developer_email
+                    #receiver=developer_email
 
-                     )
-                elif branch == "main":
-                    deploy_to_production(github_username,developer_email)
+                     #)
 
                 return jsonify({"message": "CI pipeline ran successfully"}), 200
 
@@ -175,6 +175,7 @@ def run_ci_pipeline(branch, github_username, developer_email):
         subprocess.run(["docker-compose", "-f", compose_file, "build"], cwd=LOCAL_REPO_PATH, check=True)
         subprocess.run(["docker-compose", "-f", compose_file, "up", "-d"], cwd=LOCAL_REPO_PATH, check=True)
 
+        time.sleep(5)
         print("✅ Services started successfully.")
 
         if compose_file == "docker-compose.test.yml":
@@ -182,7 +183,10 @@ def run_ci_pipeline(branch, github_username, developer_email):
 
             test_services = {
                 "weight_app_test":"/weight/testing/main_test.py",
+                
             }
+
+            failed_tests = []  # Track failed services
 
             for service, test_script in test_services.items():
                 print(f"🔍 Running tests in {service}...")
@@ -197,6 +201,7 @@ def run_ci_pipeline(branch, github_username, developer_email):
 
                 except subprocess.CalledProcessError as e:
                     print(f"❌ Tests failed in {service}: {str(e)}")
+                    failed_tests.append(service)  # Store failed service
 
                     send_email(
                         subject=f"❌ CI Test Failure for {branch} by {github_username}",
@@ -205,19 +210,28 @@ def run_ci_pipeline(branch, github_username, developer_email):
                     )
 
                     subprocess.run(["docker-compose", "-f", compose_file, "down"], cwd=LOCAL_REPO_PATH, check=True)
-                    return  # Stop further execution if tests fail
+                    
 
         subprocess.run(["docker-compose", "-f", compose_file, "down"], cwd=LOCAL_REPO_PATH, check=True)
-        print("✅ CI pipeline completed successfully.")
+
+# Send success email **only if all tests passed**
+        if not failed_tests:
+            send_email(
+                subject=f"✅ CI Test Success for {branch} by {github_username}",
+                body="All tests passed successfully during the CI pipeline!",
+                    receiver=developer_email
+            )
+            print("📧 Success email sent!")
+            print("✅ CI pipeline completed successfully.")
+            if branch == "main":
+                print("🚀 deploying to main!.")
+                deploy_to_production(github_username,developer_email)
+        else:
+            print(f"❌ CI pipeline completed with errors in: {', '.join(failed_tests)}")
+        
 
     except subprocess.CalledProcessError as e:
         print(f"❌ CI pipeline failed: {str(e)}")
-
-        send_email(
-            subject=f"❌ CI Failure for {branch} by {github_username}",
-            body=f"CI pipeline failed for your merged PR.\n\nError:\n{str(e)}",
-            receiver=developer_email
-        )
 
 
 
