@@ -1,6 +1,6 @@
 import mysql.connector
 import os
-
+import time
 
 def connect():
     connection = None
