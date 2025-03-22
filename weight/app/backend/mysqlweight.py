@@ -10,7 +10,7 @@ def connect():
             port=3306,
             user=os.environ.get('MYSQL_USER', 'root'),
             password=os.environ.get('MYSQL_PASSWORD', 'rootpassword'),
-            database="weight"
+            database=os.environ.get('MYSQL_DATABASE', 'weight')
         )
         print("MySQL Database connection successful")
     except mysql.connector.Error as err:

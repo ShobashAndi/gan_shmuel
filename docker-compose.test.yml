@@ -44,6 +44,7 @@ services:
       MYSQL_HOST: weight_db_test
       MYSQL_USER: root
       MYSQL_PASSWORD: rootpassword
+      MYSQL_DATABASE: weight_test
     volumes:
       - ./weight/in:/weight/app/in
     depends_on:

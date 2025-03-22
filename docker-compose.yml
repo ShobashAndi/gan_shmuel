@@ -1,78 +1,22 @@
 services:
-  billing_app:
-    build: ./billing
-    image: billing_app:latest
-    container_name: billing_app
+  ci-runner:
+    image: docker:24.0.7-dind  # ✅ Alpine-based image with apk
+    container_name: flask-ci
     ports:
-      - "5000:5000"
-    environment:
-      MYSQL_HOST: billing_db
-      MYSQL_USER: your_mysql_user
-      MYSQL_PASSWORD: your_mysql_password
+      - "5050:5050"
+    privileged: true
     volumes:
-      - ./billing/in:/billing/in
-    depends_on:
-      - billing_db
-    restart: on-failure
-    networks:
-      - gan_shmuel
-
-  billing_db:
-    image: mysql:9
-    container_name: billing_db
-    ports:
-      - "3306:3306"
+      - /var/run/docker.sock:/var/run/docker.sock
+    working_dir: /app/gan_shmuel
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: billdb
-      MYSQL_USER: your_mysql_user
-      MYSQL_PASSWORD: your_mysql_password
-    volumes:
-      - billing:/var/lib/mysql
-      - ./billing/db-init:/docker-entrypoint-initdb.d
-    restart: on-failure
-    networks:
-      - gan_shmuel
-
-  weight_app:
-    build: ./weight
-    image: weight_app:latest
-    container_name: weight_app
-    ports:
-      - "5001:5000"
-    environment:
-      MYSQL_HOST: weight_db
-      MYSQL_USER: your_mysql_user
-      MYSQL_PASSWORD: your_mysql_password
-    volumes:
-      - ./weight/in:/app/in
-    depends_on:
-      - weight_db
-    restart: on-failure
-    networks:
-      - gan_shmuel
-
-  weight_db:
-    image: mysql:9
-    container_name: weight_db
-    ports:
-      - "3307:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: weight
-      MYSQL_USER: your_mysql_user
-      MYSQL_PASSWORD: your_mysql_password
-    volumes:
-      - weight:/var/lib/mysql
-      - ./weight/db-init:/docker-entrypoint-initdb.d
-    restart: on-failure
-    networks:
-      - gan_shmuel
-
-volumes:
-  billing:
-  weight:
-
-networks:
-  gan_shmuel:
-    name: gan_shmuel
+      - FLASK_APP=app.py
+      - FLASK_ENV=testing
+    command: >
+      sh -c "
+      apk add --no-cache python3 py3-pip git &&
+      git clone https://github.com/ShobashAndi/gan_shmuel /app/gan_shmuel &&
+      cd /app/gan_shmuel/devops/ci &&
+      python3 -m venv venv &&
+      source venv/bin/activate &&
+      pip install -r requirements.txt &&
+      python3 webhook_server.py"
