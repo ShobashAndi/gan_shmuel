@@ -44,7 +44,6 @@ services:
       MYSQL_HOST: weight_db_test
       MYSQL_USER: root
       MYSQL_PASSWORD: rootpassword
-      MYSQL_DATABASE: weight_test
     volumes:
       - ./weight/in:/weight/app/in
     depends_on:
@@ -77,4 +76,3 @@ volumes:
 networks:
   gan_shmuel_test:
     name: gan_shmuel_test
-     
