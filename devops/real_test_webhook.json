@@ -9,7 +9,7 @@
     "diff_url": "https://github.com/maxopsdeveleap/orange-team-gan-shmuel-main/pull/49.diff",
     "patch_url": "https://github.com/maxopsdeveleap/orange-team-gan-shmuel-main/pull/49.patch",
     "issue_url": "https://api.github.com/repos/maxopsdeveleap/orange-team-gan-shmuel-main/issues/49",
-    "number": 49,
+    "number": 49,    
     "state": "closed",
     "locked": false,
     "title": "bug fix that need to fetch all data with the commits to use git show",
