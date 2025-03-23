@@ -18,9 +18,9 @@ app = Flask(__name__)
 
 # Git Configuration
 
-GIT_REPO = "https://github.com/maxopsdeveleap/orange-team-gan-shmuel-main"
+GIT_REPO = "https://github.com/ShobashAndi/gan_shmuel"
 
-#LOCAL_REPO_PATH = "/app/orange-team-gan-shmuel-main"
+#LOCAL_REPO_PATH = "/app/gan_shmuel"
 
 LOCAL_REPO_PATH = "/home/andishobash/Desktop/gam_shmuel_test"
 
@@ -194,7 +194,7 @@ def run_ci_pipeline(branch, github_username, developer_email):
                 print(f"🔍 Running tests in {service}...")
 
                 test_command = [
-                   
+                    "docker", "exec", "-i", service, "python3", test_script
                 ]
 
                 try:
@@ -287,11 +287,7 @@ def deploy_to_production(github_username,developer_email):
     subprocess.run(["docker-compose", "-f", compose_file, "down"], cwd=LOCAL_REPO_PATH, check=True)
     subprocess.run(["docker-compose", "-f", compose_file, "build"], cwd=LOCAL_REPO_PATH, check=True)
     subprocess.run(["docker-compose", "-f", compose_file, "up", "-d"], cwd=LOCAL_REPO_PATH, check=True)
-    send_email(
-        subject=f"✅ Added to production successfully by {github_username}",
-        body="Your code added to the production!",
-            receiver=developer_email
-    )
+
 
 if __name__ == '__main__':
 

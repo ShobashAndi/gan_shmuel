@@ -48,7 +48,8 @@ services:
     volumes:
       - ./weight/in:/weight/app/in
     depends_on:
-      - weight_db_test
+      weight_db_test:
+        condition: service_healthy  # ✅ This ensures Flask waits until MySQL is fully ready
     restart: on-failure
     networks:
       - gan_shmuel_test
@@ -69,6 +70,10 @@ services:
     restart: on-failure
     networks:
       - gan_shmuel_test
+    healthcheck:  # ✅ This waits until MySQL is ready before allowing other containers to connect
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 5s
+      retries: 10
 
 volumes:
   billing_test:
