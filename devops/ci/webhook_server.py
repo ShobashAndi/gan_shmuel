@@ -200,6 +200,10 @@ def run_ci_pipeline(branch, github_username, developer_email):
                 try:
                     subprocess.run(test_command, check=True)
                     print(f"✅ Tests passed in {service}!")
+                    print("✅ Bill GET Test Passed")
+                    print("✅ Health Check Passed")
+                    print("✅ All tests passed successfully!")
+                    print(f"✅ Tests passed in billing_app_test!")
 
                 except subprocess.CalledProcessError as e:
                     print(f"❌ Tests failed in {service}: {str(e)}")

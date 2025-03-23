@@ -50,11 +50,11 @@
     ],
     "requested_teams": [
 
-    ],   
+    ],      
     "labels": [   
     
-    ],
-    "milestone": null,   
+    ],    
+    "milestone": null,       
     "draft": false,
     "commits_url": "https://api.github.com/repos/maxopsdeveleap/orange-team-gan-shmuel-main/pulls/49/commits",
     "review_comments_url": "https://api.github.com/repos/maxopsdeveleap/orange-team-gan-shmuel-main/pulls/49/comments",
@@ -64,7 +64,7 @@
     "head": {
       "label": "maxopsdeveleap:test_devops",
       "ref": "test_devops",
-      "sha": "3df83c3bd9bfa42d7cc7f1ccee77b023a3e29f53",
+      "sha": "3df83c3bd9bfa42d7cc7f1ccee7  7b023a3e29f53",
       "user": {
         "login": "maxopsdeveleap",
         "id": 201723823,   
